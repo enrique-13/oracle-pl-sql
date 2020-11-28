@@ -1,0 +1,59 @@
+--------------------------------
+--- PASO N° 07 | CLAUSULA IN ---
+--------------------------------
+
+IF LST_ESTADO_CIVIL = 'SOLTERO' OR LST_ESTADO_CIVIL = 'SEPARADO' 
+                                OR LST_ESTADO_CIVIL = 'VIUDO' THEN
+    -- ACCIÓN A REALIZAR
+END IF;
+
+IF LST_ESTADO_CIVIL IN ('SOLTERO', 'SEPARADO', 'VIUDO') THEN
+    -- ACCIÓN A REALIZAR
+END IF;
+
+
+SELECT 
+    EMP.ID_EMPLEADO,
+    EMP.NOMBRE_EMP, 
+    EMP.RUT,
+    EMP.IND_ESTADO_CIVIL,
+    CIV.NOM_ESTADO_CIVIL
+FROM 
+    T_ESTADO_CIVIL CIV,
+    T_EMPLEADO EMP
+WHERE EMP.IND_ESTADO_CIVIL = CIV.ID_ESTADO_CIVIL
+    AND (EMP.IND_ESTADO_CIVIL = 1   -- 1=SOLTERO
+        OR EMP.IND_ESTADO_CIVIL = 3     -- 3=SEPARADO
+        OR EMP.IND_ESTADO_CIVIL = 4 )   -- 4=VIUDO
+
+
+SELECT 
+    EMP.ID_EMPLEADO,
+    EMP.NOMBRE_EMP, 
+    EMP.RUT,
+    EMP.IND_ESTADO_CIVIL,
+    CIV.NOM_ESTADO_CIVIL
+FROM 
+    T_ESTADO_CIVIL CIV,
+    T_EMPLEADO EMP
+WHERE EMP.IND_ESTADO_CIVIL = CIV.ID_ESTADO_CIVIL
+    AND EMP.IND_ESTADO_CIVIL IN ( 1,   -- 1=SOLTERO
+                                  3,     -- 3=SEPARADO
+                                  4 )   -- 4=VIUDO
+
+
+
+SELECT 
+    EMP.ID_EMPLEADO,
+    EMP.NOMBRE_EMP, 
+    EMP.RUT,
+    EMP.IND_ESTADO_CIVIL
+FROM 
+    T_EMPLEADO EMP
+WHERE EMP.IND_ESTADO_CIVIL IN ( SELECT CIV.ID_ESTADO_CIVIL
+                                FROM T_ESTADO_CIVIL CIV
+                                WHERE CIV.ID_ESTADO_CIVIL != 2 -- 2= CASADO 
+                                 ) 
+
+
+SELECT * FROM T_ESTADO_CIVIL
